@@ -8,9 +8,9 @@
 <body>
     <div id="map"/>
     <script>
-        const spec = {
+           const spec = {
             "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-            "title": "Hospitals is Australia",
+            "title": "Hospitals in Australia",
             "width": 800,
             "height": 400,
             "projection": {"type": "equirectangular"},
@@ -18,11 +18,40 @@
                 "url": "https://raw.githubusercontent.com/IshanIngolikar/FIT3179/refs/heads/main/week9-hw/output.json",
                 "format": {"type": "topojson", "feature": "SA4_2021_AUST_GDA2020"}
             },
-         
-                "mark": {"type": "geoshape", "stroke": "black", "strokeWidth": 1},
-                
+            "layer": [
+                {
+                    "mark": {"type": "geoshape", "stroke": "black", "strokeWidth": 1}
+                },
+                {
+                    "data": {
+                        "url": "https://raw.githubusercontent.com/IshanIngolikar/FIT3179/refs/heads/main/week9-hw/hospital.csv",
+                        "format": {"type": "csv"}
+                    },
+                    "mark": "point",
+                    "encoding": {
+                        "longitude": {"field": "Longitude", "type": "quantitative"},
+                        "latitude": {"field": "Latitude", "type": "quantitative"},
+                        "color": {
+                            "field": "Sector",
+                            "type": "nominal",
+                            "legend": {"title": "Hospital Sector"},
+                            "scale": {
+                                "domain": ["Private", "Public"],
+                                "range": ["blue", "green"]
+                            }
+                        },
+                        "tooltip": [
+                        {"field": "Hospital name", "type": "nominal", "title": "Name"},
+                        {"field": "State", "type": "nominal", "title": "State"},
+                            {"field": "Sector", "type": "nominal", "title": "Sector"},
+                            {"field": "Beds", "type": "nominal", "title": "Bed Capacity"},
+                            {"field": "Latitude", "type": "quantitative", "title": "Latitude"},
+                            {"field": "Longitude", "type": "quantitative", "title": "Longitude"}
+                        ]
+                    }
                 }
-    
+            ]
+        };
         vegaEmbed("#map", spec).then(console.log).catch(console.warn);
     </script>
 </body>
