@@ -1,5 +1,5 @@
-var vg_1 = "js/active_fires_view.vg.json";
-vegaEmbed("#fire_spots_map", vg_1, {"actions": false}).then(function(result) {
+var vg_1 = "vega/proportional.vg.json";
+vegaEmbed("#map", vg_1, {"actions": false}).then(function(result) {
 }).catch(console.error);
 
 var vg_2 = "js/annual_rainfall.vg.json";

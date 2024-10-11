@@ -30,12 +30,7 @@
                         "range": ["blue", "green"]
                     }
                 },
-                "size": {
-                    "field": "Beds",
-                    "type": "quantitative",
-                    "title": "Hospital Capacity"
-                        },
-
+                
                 
                 "tooltip": [
                 {"field": "Hospital name", "type": "nominal", "title": "Name"},
