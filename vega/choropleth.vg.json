@@ -2,6 +2,13 @@
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
     "width": 800,
     "height": 600,
+    "title": {
+      "text": "Hospital Bed Availability in Australia by State (%)",
+      "fontSize": 18,
+      "anchor": "start",
+      "fontWeight": "bold",
+      "dy": -10
+    },
     "projection": {"type": "mercator"},
     "data": {
       "url": "https://raw.githubusercontent.com/IshanIngolikar/FIT3179/refs/heads/w9/output.json",
@@ -27,15 +34,16 @@
             "format": {"type": "csv"}
           },
           "key": "State/Territory",
-        "fields": ["Population"]
+          "fields": ["Population"]
         }
       },
-     
+
       {
         "calculate": "(datum.Total_Beds / datum.Population) * 100",
         "as": "Beds_to_Population_Ratio"
       }
     ],
+
     "layer": [
       {
         "mark": {
@@ -45,17 +53,18 @@
         },
         "encoding": {
           "color": {
-            "field": "Beds_to_Population_Ratio",
-            "type": "quantitative",
-            "scale": {
-              "scheme": "yelloworangebrown",
-              "interpolate": "rgb",
-              "nice": false,
-              "type": "quantize"
+            "condition": {
+              "param": "s_select",  
+              "field": "Beds_to_Population_Ratio",
+              "type": "quantitative",
+              "scale": {
+                "scheme": "yelloworangebrown",
+                "interpolate": "rgb",
+                "nice": false,
+                "type": "quantize"
+              }
             },
-            "legend": {
-              "title": "Hospital Bed Availability per State (%)"
-            }
+            "value": "#f0f0f0"  
           },
           "tooltip": [
             {"field": "properties.STE_NAME21", "type": "nominal", "title": "State"},
@@ -63,19 +72,39 @@
             {"field": "Total_Beds", "type": "quantitative", "title": "Total Beds", "format": ","},
             {"field": "Beds_to_Population_Ratio", "type": "quantitative", "title": "Hospital Bed Availability (%)", "format": ".4f"}
           ]
-        }
+        },
+        "params": [
+            {
+              "name": "s_select",
+              "select": {
+                "type": "point",
+                "fields": ["properties.STE_NAME21"]
+              },
+              "bind": {  
+                "input": "select",
+                "options": [
+                  null, "New South Wales", "Victoria", "Queensland", "South Australia",
+                  "Western Australia", "Tasmania", "Northern Territory", "Australian Capital Territory"
+                ],
+                "labels": [
+                  "All States", "New South Wales", "Victoria", "Queensland", "South Australia",
+                  "Western Australia", "Tasmania", "Northern Territory", "Australian Capital Territory"
+                ],
+                "name": "Select a State: "
+              }
+            }
+          ]
       },
       {
         "mark": {
           "type": "text",
-          "fontSize": 17,
-          "color": "black",
+          "fontSize": 12,
           "fontWeight": "bold",
+          "color": "black",
           "align": "center",
           "baseline": "middle"
         },
         "encoding": {
-        
           "longitude": {"field": "CENTROID_LON", "type": "quantitative"},
           "latitude": {"field": "CENTROID_LAT", "type": "quantitative"}
         }
