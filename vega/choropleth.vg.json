@@ -12,11 +12,11 @@
         "lookup": "properties.STE_NAME21",
         "from": {
           "data": {
-            "url": "https://raw.githubusercontent.com/IshanIngolikar/FIT3179/refs/heads/w9/population.csv",
+            "url": "https://raw.githubusercontent.com/IshanIngolikar/FIT3179/refs/heads/w9/bedsperstate.csv",
             "format": {"type": "csv"}
           },
-          "key": "State/Territory",
-          "fields": ["Population"]
+          "key": "State",
+          "fields": ["Total_Beds"]
         }
       }
     ],
@@ -29,14 +29,15 @@
         },
         "encoding": {
           "color": {
-            "field": "Population",
+            "field": "Total_Beds",
             "type": "quantitative",
-            "scale": {"scheme": "blues"},
-            "legend": {"title": "Population"}
+            "scale": {"scheme": "reds"},
+            "legend": {"title": "Beds to Population Ratio"}
           },
           "tooltip": [
             {"field": "properties.STE_NAME21", "type": "nominal", "title": "State"},
-            {"field": "Population", "type": "quantitative", "title": "Population", "format": ","}
+            {"field": "Total_Beds", "type": "quantitative", "title": "Total Beds", "format": ","},
+            {"field": "Beds_to_Population_Ratio", "type": "quantitative", "title": "Beds to Population Ratio", "format": ".4f"}
           ]
         }
       },
