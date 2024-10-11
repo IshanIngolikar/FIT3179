@@ -1,9 +1,9 @@
 var vg_1 = "vega/proportional.vg.json";
-vegaEmbed("#map", vg_1, {"actions": false}).then(function(result) {
+vegaEmbed("#scatter", vg_1, {"actions": false}).then(function(result) {
 }).catch(console.error);
 
-var vg_2 = "js/annual_rainfall.vg.json";
-vegaEmbed("#annual_rainfall", vg_2, {"actions": false}).then(function(result) {
+var vg_2 = "vega/choropleth.vg.json";
+vegaEmbed("#bedperperson", vg_2, {"actions": false}).then(function(result) {
 }).catch(console.error);
 
 var vg_3 = "js/temperature_anomoly.vg.json";

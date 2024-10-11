@@ -4,14 +4,22 @@
     "width": 800,
     "height": 400,
     "projection": {"type": "equirectangular"},
-    "data": {
-        "url": "https://raw.githubusercontent.com/IshanIngolikar/FIT3179/refs/heads/main/week9-hw/output.json",
-        "format": {"type": "topojson", "feature": "SA4_2021_AUST_GDA2020"}
-    },
+   
+    
     "layer": [
-        {
+        {"data" : {
+            "url": "https://raw.githubusercontent.com/IshanIngolikar/FIT3179/refs/heads/w9/output.json",
+            "format": {"type": "topojson", "feature": "SA4_2021_AUST_GDA2020"}
+        },
+    
             "mark": {"type": "geoshape", "stroke": "black", "strokeWidth": 1, "fill": "khaki"}
         },
+        {"data" : {
+            "url": "https://raw.githubusercontent.com/IshanIngolikar/FIT3179/refs/heads/w9/output.json",
+            "format": {"type": "topojson", "feature": "ne_10m_graticules_15"}
+        },
+    
+            "mark": {"type": "geoshape", "stroke": "black", "strokeWidth": 0.5}  },
         {
             "data": {
                 "url": "https://raw.githubusercontent.com/IshanIngolikar/FIT3179/refs/heads/w9/hospital.csv",
