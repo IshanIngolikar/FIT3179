@@ -14,7 +14,7 @@
         },
         {
             "data": {
-                "url": "https://raw.githubusercontent.com/IshanIngolikar/FIT3179/refs/heads/main/week9-hw/hospital.csv",
+                "url": "https://raw.githubusercontent.com/IshanIngolikar/FIT3179/refs/heads/w9/hospital.csv",
                 "format": {"type": "csv"}
             },
             "mark": "circle",
