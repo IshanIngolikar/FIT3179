@@ -27,24 +27,10 @@
             "format": {"type": "csv"}
           },
           "key": "State/Territory",
-          "fields": ["Population","Code"]
-        }
-        
-      },
-      {
-        "filter": "datum.Code != null"
-      },
-      {
-        "lookup": "properties.STE_NAME21",
-        "from": {
-          "data": {
-            "url": "https://raw.githubusercontent.com/IshanIngolikar/FIT3179/refs/heads/w9/centroids.csv",
-            "format": {"type": "csv"}
-          },
-          "key": "STE_NAME21",
-          "fields": ["CENTROID_LON", "CENTROID_LAT"]
+        "fields": ["Population"]
         }
       },
+     
       {
         "calculate": "(datum.Total_Beds / datum.Population) * 100",
         "as": "Beds_to_Population_Ratio"
@@ -82,13 +68,14 @@
       {
         "mark": {
           "type": "text",
-          "fontSize": 15,
+          "fontSize": 17,
           "color": "black",
           "fontWeight": "bold",
           "align": "center",
           "baseline": "middle"
         },
         "encoding": {
+        
           "longitude": {"field": "CENTROID_LON", "type": "quantitative"},
           "latitude": {"field": "CENTROID_LAT", "type": "quantitative"}
         }
