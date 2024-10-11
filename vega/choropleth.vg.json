@@ -27,7 +27,22 @@
             "format": {"type": "csv"}
           },
           "key": "State/Territory",
-          "fields": ["Population"]
+          "fields": ["Population","Code"]
+        }
+        
+      },
+      {
+        "filter": "datum.Code != null"
+      },
+      {
+        "lookup": "properties.STE_NAME21",
+        "from": {
+          "data": {
+            "url": "https://raw.githubusercontent.com/IshanIngolikar/FIT3179/refs/heads/w9/centroids.csv",
+            "format": {"type": "csv"}
+          },
+          "key": "STE_NAME21",
+          "fields": ["CENTROID_LON", "CENTROID_LAT"]
         }
       },
       {
@@ -47,17 +62,15 @@
             "field": "Beds_to_Population_Ratio",
             "type": "quantitative",
             "scale": {
-                "scheme": "yelloworangebrown",
-                "interpolate": "rgb",
-                "nice": false,
-                "type": "quantize"
-              },
-              "legend": {
-                "title": "Hospital Bed Availability per State (%)"
-               }
+              "scheme": "yelloworangebrown",
+              "interpolate": "rgb",
+              "nice": false,
+              "type": "quantize"
+            },
+            "legend": {
+              "title": "Hospital Bed Availability per State (%)"
+            }
           },
-  
-    
           "tooltip": [
             {"field": "properties.STE_NAME21", "type": "nominal", "title": "State"},
             {"field": "Population", "type": "quantitative", "title": "Population", "format": ","},
@@ -69,15 +82,15 @@
       {
         "mark": {
           "type": "text",
-          "fontSize": 12,
+          "fontSize": 15,
           "color": "black",
+          "fontWeight": "bold",
           "align": "center",
           "baseline": "middle"
         },
         "encoding": {
-          "text": {"field": "properties.STE_NAME21", "type": "nominal"},
-          "longitude": {"field": "properties.CENTROID_LON", "type": "quantitative"},
-          "latitude": {"field": "properties.CENTROID_LAT", "type": "quantitative"}
+          "longitude": {"field": "CENTROID_LON", "type": "quantitative"},
+          "latitude": {"field": "CENTROID_LAT", "type": "quantitative"}
         }
       }
     ]
