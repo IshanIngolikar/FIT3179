@@ -36,8 +36,7 @@
           },
           "tooltip": [
             {"field": "properties.STE_NAME21", "type": "nominal", "title": "State"},
-            {"field": "Total_Beds", "type": "quantitative", "title": "Total Beds", "format": ","},
-            {"field": "Beds_to_Population_Ratio", "type": "quantitative", "title": "Beds to Population Ratio", "format": ".4f"}
+            {"field": "Total_Beds", "type": "quantitative", "title": "Total Beds", "format": ","}
           ]
         }
       },
