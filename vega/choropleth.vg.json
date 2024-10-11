@@ -1,77 +1,57 @@
 {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "width": 600,
-    "height": 400,
-    "datasets": {
-      "hospital_beds_per_state": {
-        "url": "https://raw.githubusercontent.com/IshanIngolikar/FIT3179/refs/heads/w9/hospital.csv",
-        "format": {"type": "csv"},
-        "transform": [
-          {
-            "aggregate": [{"op": "sum", "field": "beds", "as": "total_beds"}],
-            "groupby": ["state"]
-          }
-        ]
-      }
-    },
+    "width": 800,
+    "height": 600,
     "projection": {"type": "mercator"},
+    "data": {
+      "url": "https://raw.githubusercontent.com/IshanIngolikar/FIT3179/refs/heads/w9/output.json",
+      "format": {"type": "topojson", "feature": "SA4_2021_AUST_GDA2020"}
+    },
+    "transform": [
+      {
+        "lookup": "properties.STE_NAME21",
+        "from": {
+          "data": {
+            "url": "https://raw.githubusercontent.com/IshanIngolikar/FIT3179/refs/heads/w9/population.csv",
+            "format": {"type": "csv"}
+          },
+          "key": "State/Territory",
+          "fields": ["Population"]
+        }
+      }
+    ],
     "layer": [
       {
-        "data": {
-          "url": "https://raw.githubusercontent.com/IshanIngolikar/FIT3179/refs/heads/w9/output.json",
-          "format": {"type": "topojson", "feature": "SA4_2021_AUST_GDA2020"}
+        "mark": {
+          "type": "geoshape",
+          "stroke": "white",
+          "strokeWidth": 0.5
         },
-        "transform": [
-          {
-            "lookup": "properties.STATE_NAME",
-            "from": {
-              "data": {"name": "hospital_beds_per_state"},
-              "key": "state",
-              "fields": ["total_beds"]
-            }
-          },
-          {
-            "lookup": "properties.STATE_NAME",
-            "from": {
-              "data": {
-                "url": "https://raw.githubusercontent.com/IshanIngolikar/FIT3179/refs/heads/w9/population.csv",
-                "format": {"type": "csv"}
-              },
-              "key": "state",
-              "fields": ["population"]
-            }
-          },
-          {
-            "calculate": "datum.total_beds / datum.population",
-            "as": "beds_per_capita"
-          }
-        ],
-        "mark": {"type": "geoshape", "stroke": "black", "strokeWidth": 1},
         "encoding": {
           "color": {
-            "field": "beds_per_capita",
+            "field": "Population",
             "type": "quantitative",
-            "scale": {"scheme": "reds"}
+            "scale": {"scheme": "blues"},
+            "legend": {"title": "Population"}
           },
           "tooltip": [
-            {"field": "properties.STATE_NAME", "type": "nominal", "title": "State"},
-            {"field": "total_beds", "type": "quantitative", "title": "Total Beds"},
-            {"field": "population", "type": "quantitative", "title": "Population"},
-            {
-              "field": "beds_per_capita",
-              "type": "quantitative",
-              "title": "Beds per Person",
-              "format": ".5f"
-            }
+            {"field": "properties.STE_NAME21", "type": "nominal", "title": "State"},
+            {"field": "Population", "type": "quantitative", "title": "Population", "format": ","}
           ]
         }
       },
       {
-        "data": {
-          "url": "https://raw.githubusercontent.com/IshanIngolikar/FIT3179/refs/heads/w9/output.json",
-          "format": {"type": "topojson", "feature": "ne_10m_graticules_15"}
+        "mark": {
+          "type": "text",
+          "fontSize": 10,
+          "color": "black",
+          "align": "center",
+          "baseline": "middle"
         },
-        "mark": {"type": "geoshape", "stroke": "black", "strokeWidth": 0.5}
+        "encoding": {
+          "longitude": {"field": "properties.CENTROID_LON", "type": "quantitative"},
+          "latitude": {"field": "properties.CENTROID_LAT", "type": "quantitative"}
+        }
       }
     ]
   }

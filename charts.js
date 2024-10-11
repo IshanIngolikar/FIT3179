@@ -1,5 +1,5 @@
 var vg_1 = "vega/proportional.vg.json";
-vegaEmbed("#scatter", vg_1, {"actions": false}).then(function(result) {
+vegaEmbed("#map", vg_1, {"actions": false}).then(function(result) {
 }).catch(console.error);
 
 var vg_2 = "vega/choropleth.vg.json";
