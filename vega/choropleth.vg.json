@@ -18,6 +18,21 @@
           "key": "State",
           "fields": ["Total_Beds"]
         }
+      },
+      {
+        "lookup": "properties.STE_NAME21",
+        "from": {
+          "data": {
+            "url": "https://raw.githubusercontent.com/IshanIngolikar/FIT3179/refs/heads/w9/population.csv",
+            "format": {"type": "csv"}
+          },
+          "key": "State/Territory",
+          "fields": ["Population"]
+        }
+      },
+      {
+        "calculate": "(datum.Total_Beds / datum.Population) * 100",
+        "as": "Beds_to_Population_Ratio"
       }
     ],
     "layer": [
@@ -29,21 +44,32 @@
         },
         "encoding": {
           "color": {
-            "field": "Total_Beds",
+            "field": "Beds_to_Population_Ratio",
             "type": "quantitative",
-            "scale": {"scheme": "reds"},
-            "legend": {"title": "Beds to Population Ratio"}
+            "scale": {
+                "scheme": "yelloworangebrown",
+                "interpolate": "rgb",
+                "nice": false,
+                "type": "quantize"
+              },
+              "legend": {
+                "title": "Hospital Bed Availability per State (%)"
+               }
           },
+  
+    
           "tooltip": [
             {"field": "properties.STE_NAME21", "type": "nominal", "title": "State"},
-            {"field": "Total_Beds", "type": "quantitative", "title": "Total Beds", "format": ","}
+            {"field": "Population", "type": "quantitative", "title": "Population", "format": ","},
+            {"field": "Total_Beds", "type": "quantitative", "title": "Total Beds", "format": ","},
+            {"field": "Beds_to_Population_Ratio", "type": "quantitative", "title": "Hospital Bed Availability (%)", "format": ".4f"}
           ]
         }
       },
       {
         "mark": {
           "type": "text",
-          "fontSize": 10,
+          "fontSize": 12,
           "color": "black",
           "align": "center",
           "baseline": "middle"
