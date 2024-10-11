@@ -9,23 +9,6 @@
           "url": "https://raw.githubusercontent.com/IshanIngolikar/FIT3179/refs/heads/w9/output.json",
           "format": {"type": "topojson", "feature": "SA4_2021_AUST_GDA2020"}
         },
-        "mark": {
-          "type": "geoshape",
-          "stroke": "white",
-          "strokeWidth": 0.5
-        },
-        "encoding": {
-          "color": {
-            "field": "Population",
-            "type": "quantitative",
-            "scale": {"scheme": "blues"},
-            "legend": {"title": "Population"}
-          },
-          "tooltip": [
-            {"field": "properties.STE_NAME21", "type": "nominal", "title": "State"},
-            {"field": "Population", "type": "quantitative", "title": "Population", "format": ","}
-          ]
-        },
         "transform": [
           {
             "lookup": "properties.STE_NAME21",
@@ -37,8 +20,42 @@
               "key": "State/Territory",
               "fields": ["Population"]
             }
+          },
+          {
+            "lookup": "properties.STE_NAME21",
+            "from": {
+              "data": {
+                "url": "https://raw.githubusercontent.com/IshanIngolikar/FIT3179/refs/heads/w9/hospital.csv",
+                "format": {"type": "csv"}
+              },
+              "key": "State",
+              "fields": ["Beds"]
+            }
+          },
+          {
+            "calculate": "datum.Beds / datum.Population",
+            "as": "Beds_to_Population_Ratio"
           }
-        ]
+        ],
+        "mark": {
+          "type": "geoshape",
+          "stroke": "white",
+          "strokeWidth": 0.5
+        },
+        "encoding": {
+          "color": {
+            "field": "Beds_to_Population_Ratio",
+            "type": "quantitative",
+            "scale": {"scheme": "reds"},
+            "legend": {"title": "Beds to Population Ratio"}
+          },
+          "tooltip": [
+            {"field": "properties.STE_NAME21", "type": "nominal", "title": "State"},
+            {"field": "Population", "type": "quantitative", "title": "Population", "format": ","},
+            {"field": "Beds", "type": "quantitative", "title": "Total Beds", "format": ","},
+            {"field": "Beds_to_Population_Ratio", "type": "quantitative", "title": "Beds to Population Ratio", "format": ".4f"}
+          ]
+        }
       },
       {
         "data": {
