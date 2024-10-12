@@ -34,7 +34,12 @@
         "field": "TotalExpenditure",
         "type": "quantitative",
         "title": "Total Expenditure (Millions)",
-        "scale": {"scheme": "blues"}
+        "scale": {
+          "scheme": "blues",
+          "interpolate": "rgb",
+          "nice": false,
+          "type": "symlog"
+        }
       },
       "tooltip": [
         {"field": "state", "type": "nominal", "title": "State"},
