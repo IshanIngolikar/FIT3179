@@ -46,7 +46,7 @@
       },
       {
         "calculate": "(datum.Total_Beds / datum.Population) * 100",
-        "as": "Beds_to_Population_Ratio"
+        "as": "BedAvailabilityPercentage"
       },
       {
         "filter": "selectedState == null || datum['properties']['STE_NAME21'] == selectedState"
@@ -59,7 +59,7 @@
     },
     "encoding": {
       "color": {
-        "field": "Beds_to_Population_Ratio",
+        "field": "BedAvailabilityPercentage",
         "type": "quantitative",
         "scale": {
           "scheme": "yelloworangebrown",
@@ -73,7 +73,7 @@
         {"field": "Population", "type": "quantitative", "title": "Population", "format": ","},
         {"field": "Total_Beds", "type": "quantitative", "title": "Total Beds", "format": ","},
         {
-          "field": "Beds_to_Population_Ratio",
+          "field": "BedAvailabilityPercentage",
           "type": "quantitative",
           "title": "Hospital Bed Availability (%)",
           "format": ".4f"

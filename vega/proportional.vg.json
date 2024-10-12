@@ -51,8 +51,7 @@
           "size": {
           "field": "Beds",
           "type": "quantitative",
-          "title": "Number of Beds",
-          "scale": {"range": [10, 500]}  
+          "title": "Number of Beds"
         },
 
           "tooltip": [
