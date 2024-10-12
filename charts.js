@@ -1,5 +1,15 @@
 // JavaScript code to embed and control the charts
-
+const stateAbbreviations = {
+    "Australian Capital Territory": "ACT",
+    "New South Wales": "NSW",
+    "Northern Territory": "NT",
+    "Queensland": "QLD",
+    "South Australia": "SA",
+    "Tasmania": "TAS",
+    "Victoria": "VIC",
+    "Western Australia": "WA"
+  };
+  
 // Function to embed the first chart
 function embedFirstChart(selectedState) {
     var vg_1 = "vega/proportional.vg.json";
@@ -61,7 +71,7 @@ function embedFirstChart(selectedState) {
     embedSecondChart(selectedState);
     embedThirdChart(selectedState);
     embedFourthChart(selectedState);
-    embedFifthChart(selectedState);
+    embedFifthChart(stateAbbreviations[selectedState]);
 
 
   });

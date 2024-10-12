@@ -29,13 +29,7 @@
       },
       {
         "name": "selectedState",
-        "value": null,
-        "bind": {
-          "input": "select",
-          "options": [null, "ACT", "NSW", "NT", "QLD", "SA", "TAS", "VIC", "WA"],
-          "labels": ["All States", "ACT", "NSW", "NT", "QLD", "SA", "TAS", "VIC", "WA"],
-          "name": "Select a State: "
-        }
+        "value": null
       }
     ],
     "transform": [
