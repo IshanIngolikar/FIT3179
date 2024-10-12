@@ -4,14 +4,48 @@
   <script src="https://cdn.jsdelivr.net/npm/vega@5.25.0"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.15.0"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.22.2"></script>
-  <script src = "charts.js"></script>
+<!-- Bootstrap CSS -->
+<link
+  rel="stylesheet"
+  href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+/>
+
 </head>
 <body>
 <h1> hello</h1>
+<div class="container my-4">
+    <!-- Drop-down menu -->
+    <div class="form-group row">
+      <label for="state-select" class="col-sm-2 col-form-label font-weight-bold"
+        >Select a State:</label
+      >
+      <div class="col-sm-4">
+        <select id="state-select" class="form-control">
+          <option value="">All States</option>
+          <option value="New South Wales">New South Wales</option>
+          <option value="Victoria">Victoria</option>
+          <option value="Queensland">Queensland</option>
+          <option value="South Australia">South Australia</option>
+          <option value="Western Australia">Western Australia</option>
+          <option value="Tasmania">Tasmania</option>
+          <option value="Northern Territory">Northern Territory</option>
+          <option value="Australian Capital Territory">
+            Australian Capital Territory
+          </option>
+        </select>
+      </div>
+    </div>
 
 <div id = "map"></div>
 <div id = "bedperperson"></div>
 <div id = "sectoranalysis"></div>
+<script src = "charts.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+
 
 </body>
 </html>

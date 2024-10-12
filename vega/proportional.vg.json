@@ -4,51 +4,65 @@
     "width": 800,
     "height": 400,
     "projection": {"type": "equirectangular"},
-   
-    
+    "params": [
+      {
+        "name": "selectedState",
+        "value": null
+      }
+    ],
     "layer": [
-        {"data" : {
-            "url": "https://raw.githubusercontent.com/IshanIngolikar/FIT3179/refs/heads/w9/output.json",
-            "format": {"type": "topojson", "feature": "SA4_2021_AUST_GDA2020"}
+      {
+        "data": {
+          "url": "https://raw.githubusercontent.com/IshanIngolikar/FIT3179/refs/heads/w9/output.json",
+          "format": {"type": "topojson", "feature": "SA4_2021_AUST_GDA2020"}
         },
-    
-            "mark": {"type": "geoshape", "stroke": "black", "strokeWidth": 1, "fill": "khaki"}
+        "mark": {"type": "geoshape", "stroke": "black", "strokeWidth": 1, "fill": "khaki"},
+        "transform": [
+          {
+            "filter": "selectedState == null || datum['properties']['STE_NAME21'] == selectedState"
+          }
+        ]
+      },
+      {
+        "data": {
+          "url": "https://raw.githubusercontent.com/IshanIngolikar/FIT3179/refs/heads/w9/output.json",
+          "format": {"type": "topojson", "feature": "ne_10m_graticules_15"}
         },
-        {"data" : {
-            "url": "https://raw.githubusercontent.com/IshanIngolikar/FIT3179/refs/heads/w9/output.json",
-            "format": {"type": "topojson", "feature": "ne_10m_graticules_15"}
+        "mark": {"type": "geoshape", "stroke": "black", "strokeWidth": 0.5}
+      },
+      {
+        "data": {
+          "url": "https://raw.githubusercontent.com/IshanIngolikar/FIT3179/refs/heads/w9/hospital.csv",
+          "format": {"type": "csv"}
         },
-    
-            "mark": {"type": "geoshape", "stroke": "black", "strokeWidth": 0.5}  },
-        {
-            "data": {
-                "url": "https://raw.githubusercontent.com/IshanIngolikar/FIT3179/refs/heads/w9/hospital.csv",
-                "format": {"type": "csv"}
-            },
-            "mark": "circle",
-            "encoding": {
-                "longitude": {"field": "Longitude", "type": "quantitative"},
-                "latitude": {"field": "Latitude", "type": "quantitative"},
-                "color": {
-                    "field": "Sector",
-                    "type": "nominal",
-                    "legend": {"title": "Hospital Sector"},
-                    "scale": {
-                        "domain": ["Private", "Public"],
-                        "range": ["blue", "green"]
-                    }
-                },
-                
-                
-                "tooltip": [
-                {"field": "Hospital name", "type": "nominal", "title": "Name"},
-                {"field": "State", "type": "nominal", "title": "State"},
-                    {"field": "Sector", "type": "nominal", "title": "Sector"},
-                    {"field": "Beds", "type": "nominal", "title": "Bed Capacity"},
-                    {"field": "Latitude", "type": "quantitative", "title": "Latitude"},
-                    {"field": "Longitude", "type": "quantitative", "title": "Longitude"}
-                ]
+        "mark": "circle",
+        "transform": [
+          {
+            "filter": "selectedState == null || datum.State == selectedState"
+          }
+        ],
+        "encoding": {
+          "longitude": {"field": "Longitude", "type": "quantitative"},
+          "latitude": {"field": "Latitude", "type": "quantitative"},
+          "color": {
+            "field": "Sector",
+            "type": "nominal",
+            "legend": {"title": "Hospital Sector"},
+            "scale": {
+              "domain": ["Private", "Public"],
+              "range": ["blue", "green"]
             }
+          },
+          "tooltip": [
+            {"field": "Hospital name", "type": "nominal", "title": "Name"},
+            {"field": "State", "type": "nominal", "title": "State"},
+            {"field": "Sector", "type": "nominal", "title": "Sector"},
+            {"field": "Beds", "type": "nominal", "title": "Bed Capacity"},
+            {"field": "Latitude", "type": "quantitative", "title": "Latitude"},
+            {"field": "Longitude", "type": "quantitative", "title": "Longitude"}
+          ]
         }
+      }
     ]
-}
+  }
+  
