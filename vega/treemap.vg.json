@@ -21,15 +21,12 @@
       "x": {
         "field": "state",
         "type": "ordinal",
-        "title": "State",
-        "spacing": 1
-      },
+        "title": "State"      },
       "y": {
         "field": "area_of_expenditure",
         "type": "ordinal",
-        "title": "Area of Expenditure",
-        "spacing": 1
-      },
+        "title": "Area of Expenditure"
+          },
       "color": {
         "field": "TotalExpenditure",
         "type": "quantitative",
