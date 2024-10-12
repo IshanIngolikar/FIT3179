@@ -25,10 +25,21 @@ function embedFirstChart(selectedState) {
       result.view.signal("selectedState", selectedState).run();
     }).catch(console.error);
   }
+
+  function embedFourthChart(selectedState) {
+    var vg_4 = "vega/treemap.vg.json";
+    vegaEmbed("#expenditure", vg_4, {"actions": false}).then(function(result) {
+      // Update the parameter in the chart
+      result.view.signal("selectedState", selectedState).run();
+    }).catch(console.error);
+  }
   
   // Initial embedding with no state selected (null)
   embedFirstChart(null);
   embedSecondChart(null);
+  embedThirdChart(null);
+  embedFourthChart(null);
+
   
   // Add event listener to the drop-down
   document.getElementById("state-select").addEventListener("change", function() {
@@ -38,7 +49,9 @@ function embedFirstChart(selectedState) {
     console.log(selectedState)
     embedFirstChart(selectedState);
     embedSecondChart(selectedState);
-    embedThirdChart(selectedState)
+    embedThirdChart(selectedState);
+    embedFourthChart(selectedState);
+
   });
   
   

@@ -1,0 +1,53 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "description": "Treemap showing healthcare expenditure by state, area of expenditure, and source of funding.",
+    "data": {
+      "url": "https://raw.githubusercontent.com/IshanIngolikar/FIT3179/refs/heads/w9/expenditure.csv",
+      "format": {"type": "csv"}
+    },
+    "transform": [
+      {
+        "aggregate": [{"op": "sum", "field": "real_expenditure_millions", "as": "TotalExpenditure"}],
+        "groupby": ["state", "area_of_expenditure", "broad_source_of_funding"]
+      },
+      {
+        "window": [{"op": "rank", "as": "rank"}],
+        "sort": [{"field": "TotalExpenditure", "order": "descending"}],
+        "frame": [null, null]
+      }
+    ],
+    "mark": "rect",
+    "encoding": {
+      "x": {
+        "field": "state",
+        "type": "ordinal",
+        "title": "State",
+        "spacing": 1
+      },
+      "y": {
+        "field": "area_of_expenditure",
+        "type": "ordinal",
+        "title": "Area of Expenditure",
+        "spacing": 1
+      },
+      "color": {
+        "field": "TotalExpenditure",
+        "type": "quantitative",
+        "title": "Total Expenditure (Millions)",
+        "scale": {"scheme": "blues"}
+      },
+      "tooltip": [
+        {"field": "state", "type": "nominal", "title": "State"},
+        {"field": "area_of_expenditure", "type": "nominal", "title": "Area of Expenditure"},
+        {"field": "broad_source_of_funding", "type": "nominal", "title": "Source of Funding"},
+        {"field": "TotalExpenditure", "type": "quantitative", "title": "Expenditure (Millions)"}
+      ]
+    },
+    "width": 800,
+    "height": 400,
+    "config": {
+      "view": {"stroke": "transparent"},
+      "mark": {"strokeWidth": 1, "stroke": "#fff"}
+    }
+  }
+  

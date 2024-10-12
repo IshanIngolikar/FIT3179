@@ -8,33 +8,7 @@
     "params": [
       {
         "name": "selectedState",
-        "value": null,
-        "bind": {
-          "input": "select",
-          "options": [
-            null,
-            "New South Wales",
-            "Victoria",
-            "Queensland",
-            "South Australia",
-            "Western Australia",
-            "Tasmania",
-            "Northern Territory",
-            "Australian Capital Territory"
-          ],
-          "labels": [
-            "All States",
-            "New South Wales",
-            "Victoria",
-            "Queensland",
-            "South Australia",
-            "Western Australia",
-            "Tasmania",
-            "Northern Territory",
-            "Australian Capital Territory"
-          ],
-          "name": "Select a State: "
-        }
+        "value": null
       }
     ],
     "transform": [
