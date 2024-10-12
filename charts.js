@@ -17,6 +17,14 @@ function embedFirstChart(selectedState) {
       result.view.signal("selectedState", selectedState).run();
     }).catch(console.error);
   }
+
+  function embedThirdChart(selectedState) {
+    var vg_3 = "vega/pie.vg.json";
+    vegaEmbed("#sectoranalysis", vg_3, {"actions": false}).then(function(result) {
+      // Update the parameter in the chart
+      result.view.signal("selectedState", selectedState).run();
+    }).catch(console.error);
+  }
   
   // Initial embedding with no state selected (null)
   embedFirstChart(null);
@@ -30,9 +38,7 @@ function embedFirstChart(selectedState) {
     console.log(selectedState)
     embedFirstChart(selectedState);
     embedSecondChart(selectedState);
+    embedThirdChart(selectedState)
   });
   
-
-var vg_3 = "vega/pie.vg.json";
-vegaEmbed("#sectoranalysis", vg_3, {"actions": false}).then(function(result) {
-}).catch(console.error);
+  
