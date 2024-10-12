@@ -23,13 +23,7 @@
           }
         ]
       },
-      {
-        "data": {
-          "url": "https://raw.githubusercontent.com/IshanIngolikar/FIT3179/refs/heads/w9/output.json",
-          "format": {"type": "topojson", "feature": "ne_10m_graticules_15"}
-        },
-        "mark": {"type": "geoshape", "stroke": "black", "strokeWidth": 0.5}
-      },
+
       {
         "data": {
           "url": "https://raw.githubusercontent.com/IshanIngolikar/FIT3179/refs/heads/w9/hospital.csv",
@@ -52,7 +46,15 @@
               "domain": ["Private", "Public"],
               "range": ["blue", "green"]
             }
+            
           },
+          "size": {
+          "field": "Beds",
+          "type": "quantitative",
+          "title": "Number of Beds",
+          "scale": {"range": [10, 500]}  
+        },
+
           "tooltip": [
             {"field": "Hospital name", "type": "nominal", "title": "Name"},
             {"field": "State", "type": "nominal", "title": "State"},

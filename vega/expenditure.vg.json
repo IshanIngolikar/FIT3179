@@ -1,0 +1,81 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "description": "Line chart showing government healthcare expenditure by state for a selected area of expenditure, with aggregation by area and state.",
+    "data": {
+      "url": "https://raw.githubusercontent.com/IshanIngolikar/FIT3179/refs/heads/w9/expenditure.csv",
+      "format": {"type": "csv"}
+    },
+    "params": [
+      {
+        "name": "selectedArea",
+        "value": "Administration",
+        "bind": {
+          "input": "select",
+          "options": [
+            "Administration",
+            "Aids and appliances",
+            "All other medications",
+            "Benefit-paid pharmaceuticals",
+            "Capital expenditure",
+            "Community health",
+            "Dental services",
+            "Public hospitals",
+            "Private hospitals",
+            "Public health",
+            "Research"
+          ],
+          "name": "Select an Area of Expenditure: "
+        }
+      },
+      {
+        "name": "selectedState",
+        "value": null,
+        "bind": {
+          "input": "select",
+          "options": [null, "ACT", "NSW", "NT", "QLD", "SA", "TAS", "VIC", "WA"],
+          "labels": ["All States", "ACT", "NSW", "NT", "QLD", "SA", "TAS", "VIC", "WA"],
+          "name": "Select a State: "
+        }
+      }
+    ],
+    "transform": [
+      {
+        "filter": "datum.area_of_expenditure == selectedArea"
+      },
+      {
+        "filter": "selectedState == null || datum.state == selectedState"
+      },
+      {
+        "aggregate": [
+          {"op": "sum", "field": "real_expenditure_millions", "as": "total_expenditure"}
+        ],
+        "groupby": ["financial_year", "state", "area_of_expenditure"]
+      }
+    ],
+    "mark": "line",
+    "encoding": {
+      "x": {
+        "field": "financial_year",
+        "type": "ordinal",
+        "title": "Financial Year"
+      },
+      "y": {
+        "field": "total_expenditure",
+        "type": "quantitative",
+        "title": "Total Expenditure (Millions)"
+      },
+      "color": {
+        "field": "state",
+        "type": "nominal",
+        "title": "State"
+      },
+      "tooltip": [
+        {"field": "financial_year", "type": "ordinal", "title": "Year"},
+        {"field": "state", "type": "nominal", "title": "State"},
+        {"field": "total_expenditure", "type": "quantitative", "title": "Expenditure (Millions)"}
+      ]
+    },
+    "width": 800,
+    "height": 400
+  }
+  
