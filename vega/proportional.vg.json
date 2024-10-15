@@ -1,8 +1,8 @@
 {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
     "title": "Hospitals in Australia",
-    "width": 800,
-    "height": 400,
+    "width": "container",
+    "height": "container",
     "projection": {"type": "equirectangular"},
     "params": [
       {

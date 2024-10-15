@@ -69,7 +69,7 @@
         {"field": "total_expenditure", "type": "quantitative", "title": "Expenditure (Millions)"}
       ]
     },
-    "width": 800,
-    "height": 400
+    "width": "container",
+    "height": "container"
   }
   

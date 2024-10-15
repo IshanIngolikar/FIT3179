@@ -45,8 +45,8 @@
         {"field": "TotalExpenditure", "type": "quantitative", "title": "Expenditure (Millions)"}
       ]
     },
-    "width": 800,
-    "height": 400,
+    "width": "container",
+    "height": "container",
     "config": {
       "view": {"stroke": "transparent"},
       "mark": {"strokeWidth": 1, "stroke": "#fff"}
