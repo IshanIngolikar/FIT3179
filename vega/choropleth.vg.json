@@ -2,6 +2,10 @@
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
     "width": "container",
     "height": "container",
+    "autosize": {
+    "type": "fit",
+    "contains": "padding"
+  },
     "title": {
       "text": "Hospital Bed Availability in Australia by State (%)",
       "fontSize": 18,
