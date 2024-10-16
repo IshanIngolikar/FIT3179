@@ -1,89 +1,105 @@
 {
-    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "width": "container",
-    "height": "container",
-    "autosize": {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": "container",
+  "autosize": {
     "type": "fit",
     "contains": "padding"
   },
-    "title": {
-      "text": "Hospital Bed Availability in Australia by State (%)",
-      "fontSize": 18,
-      "anchor": "start",
-      "fontWeight": "bold",
-      "dy": -10
-    },
-    "projection": {"type": "mercator"},
-    "data": {
-      "url": "https://raw.githubusercontent.com/IshanIngolikar/FIT3179/refs/heads/w9/output.json",
-      "format": {"type": "topojson", "feature": "SA4_2021_AUST_GDA2020"}
-    },
-    
-    "params": [
-      {
-        "name": "selectedState",
-        "value": null
+  "projection": {"type": "mercator"},
+  "data": {
+    "url": "https://raw.githubusercontent.com/IshanIngolikar/FIT3179/refs/heads/w9/output.json",
+    "format": {"type": "topojson", "feature": "SA4_2021_AUST_GDA2020"}
+  },
+  "params": [
+    {
+      "name": "selectedState",
+      "value": null
+    }
+  ],
+  "transform": [
+    {
+      "lookup": "properties.STE_NAME21",
+      "from": {
+        "data": {
+          "url": "https://raw.githubusercontent.com/IshanIngolikar/FIT3179/refs/heads/w9/bedsperstate.csv",
+          "format": {"type": "csv"}
+        },
+        "key": "State",
+        "fields": ["Total_Beds"]
       }
-    ],
-    "transform": [
-      {
-        "lookup": "properties.STE_NAME21",
-        "from": {
-          "data": {
-            "url": "https://raw.githubusercontent.com/IshanIngolikar/FIT3179/refs/heads/w9/bedsperstate.csv",
-            "format": {"type": "csv"}
-          },
-          "key": "State",
-          "fields": ["Total_Beds"]
-        }
-      },
-      {
-        "lookup": "properties.STE_NAME21",
-        "from": {
-          "data": {
-            "url": "https://raw.githubusercontent.com/IshanIngolikar/FIT3179/refs/heads/w9/population.csv",
-            "format": {"type": "csv"}
-          },
-          "key": "State/Territory",
-          "fields": ["Population"]
-        }
-      },
-      {
-        "calculate": "(datum.Total_Beds / datum.Population) * 100",
-        "as": "BedAvailabilityPercentage"
-      },
-      {
-        "filter": "selectedState == null || datum['properties']['STE_NAME21'] == selectedState"
-      }
-    ],
-    "mark": {
-      "type": "geoshape",
-      "stroke": "white",
-      "strokeWidth": 0.5
     },
-    "encoding": {
-      "color": {
-        "field": "BedAvailabilityPercentage",
-        "type": "quantitative",
-        "scale": {
-          "scheme": "yelloworangebrown",
-          "interpolate": "rgb",
-          "nice": false,
-          "type": "quantize"
-        }
+    {
+      "lookup": "properties.STE_NAME21",
+      "from": {
+        "data": {
+          "url": "https://raw.githubusercontent.com/IshanIngolikar/FIT3179/refs/heads/w9/population.csv",
+          "format": {"type": "csv"}
+        },
+        "key": "State/Territory",
+        "fields": ["Population"]
+      }
+    },
+    {
+      "calculate": "(datum.Total_Beds / datum.Population) * 100",
+      "as": "BedAvailabilityPercentage"
+    },
+    {
+      "filter": "selectedState == null || datum['properties']['STE_NAME21'] == selectedState"
+    }
+  ],
+  "layer": [
+    {
+      "mark": {
+        "type": "geoshape",
+        "stroke": "white",
+        "strokeWidth": 0.5
       },
-      "tooltip": [
-        {"field": "properties.STE_NAME21", "type": "nominal", "title": "State"},
-        {"field": "Population", "type": "quantitative", "title": "Population", "format": ","},
-        {"field": "Total_Beds", "type": "quantitative", "title": "Total Beds", "format": ","},
-        {
+      "encoding": {
+        "color": {
           "field": "BedAvailabilityPercentage",
           "type": "quantitative",
-          "title": "Hospital Bed Availability (%)",
-          "format": ".4f"
+          "scale": {
+            "scheme": "yelloworangebrown",
+            "interpolate": "rgb",
+            "nice": false,
+            "type": "quantize"
+          }
+        },
+        "tooltip": [
+          {"field": "properties.STE_NAME21", "type": "nominal", "title": "State"},
+          {"field": "Population", "type": "quantitative", "title": "Population", "format": ","},
+          {"field": "Total_Beds", "type": "quantitative", "title": "Total Beds", "format": ","},
+          {
+            "field": "BedAvailabilityPercentage",
+            "type": "quantitative",
+            "title": "Hospital Bed Availability (%)",
+            "format": ".4f"
+          }
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 10,
+        "dy": 10,
+        "fontSize": 14,
+        "fontWeight": "bold",
+        "color": "red"
+      },
+      "encoding": {
+        "longitude": {"field": "geometry.coordinates[0][0][0]", "type": "quantitative"},
+        "latitude": {"field": "geometry.coordinates[0][0][1]", "type": "quantitative"},
+        "text": {
+          "condition": {
+            "test": "datum['properties']['STE_NAME21'] == 'Northern Territory'",
+            "value": "Northern Territory: Best Bed Availability"
+          },
+          "value": ""
         }
-      ]
+      }
     }
-    
-  }
-  
+  ]
+}

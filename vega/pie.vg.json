@@ -42,7 +42,7 @@
     }
   },
   "title": {
-    "text": {"signal": "selectedState ? 'Healthcare Distribution in ' + selectedState : 'Healthcare Distribution by State'"},
+    "text": {"signal": "selectedState ? '      Healthcare Distribution in ' + selectedState : 'Healthcare Distribution by State'"},
     "fontSize": 18,
     "fontWeight": "bold"
   }
