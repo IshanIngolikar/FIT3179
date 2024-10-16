@@ -1,160 +1,184 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Healthcare Analytics Dashboard</title>
-  <script src="https://cdn.jsdelivr.net/npm/vega@5.25.0"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.15.0"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.22.2"></script>
-  <!-- Bootstrap CSS -->
-  <link
-    rel="stylesheet"
-    href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-  />
-  <style>
-    /* Global box-sizing */
-    *, *::before, *::after {
-      box-sizing: border-box;
-    }
-
-    /* Wide Container */
-    .wide-container {
-      max-width: 320px; /* Decreased from 400px */
-      margin: 0 auto;
-    }
-
-    .container {
-      max-width: 100%;
-    }
-
-    /* Chart Row */
-    .chart-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 16px; /* Decreased from 20px */
-      margin-top: 32px; /* Decreased from 40px */
-    }
-
-    /* Chart Styles */
-    .chart {
-      position: relative;
-      flex: 1 1 calc(40% - 16px); /* Adjusted gap */
-      min-width: 336px; /* Decreased from 420px */
-      max-width: 100%;
-      background-color: #f8f9fa;
-      border-radius: 8px;
-      box-shadow: 0 1.6px 8px rgba(0, 0, 0, 0.1); /* Decreased shadow size */
-      overflow: hidden;
-      min-height: 448px; /* Decreased from 560px */
-      overflow: visible;
-
-    }
-
-    /* Full-Width Chart */
-    .chart.full-width {
-      flex: 1 1 100%;
-      height: 80px; /* Decreased from 100px */
-    }
-
-    /* Chart Content Styling */
-    .chart > div {
-      width: 100%;
-      height: 100%;
-    }
-
-    .chart svg,
-    .chart canvas {
-      display: block;
-      width: 100%;
-      height: auto;
-    }
-
-    /* Headings */
-    h1, h2 {
-      text-align: center;
-      margin-bottom: 24px; /* Decreased from 30px */
-    }
-
-    h2 {
-      margin-top: 24px; /* Decreased from 30px */
-    }
-
-    /* Responsive Design */
-    @media (max-width: 1280px) {
-      .chart {
-        flex: 1 1 calc(40% - 16px);
-        min-width: 240px; /* Decreased from 300px */
-        min-height: 320px; /* Decreased from 400px */
-      }
-    }
-
-    @media (max-width: 768px) {
-      .chart {
-        flex: 1 1 100%;
-        min-width: 100%;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Australian Healthcare Data Visualization</title>
+    <!-- Pure CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.1.0/build/pure-min.css">
+    <!-- Custom CSS -->
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        h1, h2, h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .container {
+            width: 95%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .state-select {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .chart-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .chart-container {
+            background-color: #fff;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            flex: 1 1 calc(50% - 20px); /* Two charts per row */
+            min-width: 300px;
+            box-sizing: border-box;
+        }
+        .full-width-chart {
+            flex: 1 1 100%;
+        }
+        .chart-title {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .annotation {
+            font-style: italic;
+            color: #555;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        /* Adjust chart heights */
+        #map, #bedperperson {
+            height: 600px; /* Increased height for maps and treemap */
+        }
+        #expenditure_tree
+        {
+          height: 360px; 
+        }
+        #sectoranalysis {
+            height: 100px; /* Pie chart height */
+        }
+        /* Ensure charts are responsive */
+        .chart-content {
+            width: 100%;
+            height: 100%;
+        }
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .chart-container {
+                flex: 1 1 100%;
+            }
+        }
+    </style>
+    <!-- Vega & Vega-Lite -->
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.25.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.15.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.22.2"></script>
 </head>
 <body>
-  <div class="container">
-    <!-- Page Title -->
-    <h1>Healthcare Analytics Dashboard</h1>
 
-    <!-- Dropdown Menu for State Selection -->
-    <div class="form-group row">
-      <label for="state-select" class="col-sm-2 col-form-label font-weight-bold"
-        >Select a State:</label
-      >
-      <div class="col-sm-4">
-        <select id="state-select" class="form-control">
-          <option value="">All States</option>
-          <option value="New South Wales">New South Wales</option>
-          <option value="Victoria">Victoria</option>
-          <option value="Queensland">Queensland</option>
-          <option value="South Australia">South Australia</option>
-          <option value="Western Australia">Western Australia</option>
-          <option value="Tasmania">Tasmania</option>
-          <option value="Northern Territory">Northern Territory</option>
-          <option value="Australian Capital Territory">Australian Capital Territory</option>
+<div class="container">
+    <h1>Australian Healthcare Data Visualization</h1>
+    
+    <!-- State Selection Dropdown -->
+    <div class="state-select">
+        <label for="state-select"><strong>Select a State or Territory:</strong></label>
+        <select id="state-select">
+            <option value="">All States and Territories</option>
+            <option>Australian Capital Territory</option>
+            <option>New South Wales</option>
+            <option>Northern Territory</option>
+            <option>Queensland</option>
+            <option>South Australia</option>
+            <option>Tasmania</option>
+            <option>Victoria</option>
+            <option>Western Australia</option>
         </select>
-      </div>
-
-    <!-- Charts Section using Flexbox -->
-    <div class="container">
-    
-      <!-- Top Row: Two Charts Side by Side -->
-      <div class="chart-row">
-        <div id="map" class="chart">
-          <!-- Map Chart Content -->
-        </div>
-        <div id="bedperperson" class="chart">
-          <!-- Bed Availability Chart Content -->
-        </div>
-      </div>
-    
-      <!-- Middle Row: Single Chart Spanning Full Width -->
-        <div id="sectoranalysis" class="chart full-width">
-          <!-- Sectoral Analysis Pie Chart Content -->
-        </div>
-    
-      <!-- Bottom Row: Two Charts Side by Side -->
-      <div class="chart-row">
-        <div id="expenditure_tree" class="chart">
-          <!-- Expenditure Treemap Chart Content -->
-        </div>
-        <div id="expenditure_line" class="chart">
-          <!-- Government Expenditure Line Chart Content -->
-        </div>
-      </div>
     </div>
-  </div>
+    
+    <!-- Charts Section -->
+    <div class="chart-grid">
+        <!-- First Row: Two Charts Side by Side -->
+        <div class="chart-container">
+            <h3 class="chart-title">Hospital Distribution Map</h3>
+            <p class="annotation">Distribution of hospitals across regions.</p>
+            <div id="map" class="chart-content"></div>
+        </div>
+        <div class="chart-container">
+            <h3 class="chart-title">Beds Per Person</h3>
+            <p class="annotation">Density of hospital beds per population.</p>
+            <div id="bedperperson" class="chart-content"></div>
+        </div>
+        <!-- Second Row: Full Width Pie Chart -->
+        <div class="chart-container full-width-chart">
+            <h3 class="chart-title">Sector Analysis</h3>
+            <p class="annotation">Public vs Private sector distribution.</p>
+            <div id="sectoranalysis" class="chart-content"></div>
+        </div>
+        <!-- Third Row: Two Charts Side by Side -->
+        <div class="chart-container">
+            <h3 class="chart-title">Expenditure Breakdown</h3>
+            <p class="annotation">Allocation of healthcare funding.</p>
+            <div id="expenditure_tree" class="chart-content"></div>
+        </div>
+        <div class="chart-container">
+            <h3 class="chart-title">Expenditure Over Time</h3>
+            <p class="annotation">Trends in healthcare spending.</p>
+            <div id="expenditure_line" class="chart-content"></div>
+        </div>
+    </div>
+</div>
 
-  <!-- Load Charts Script -->
-  <script src="charts.js"></script>
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!-- JavaScript code -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const stateAbbreviations = {
+        "Australian Capital Territory": "ACT",
+        "New South Wales": "NSW",
+        "Northern Territory": "NT",
+        "Queensland": "QLD",
+        "South Australia": "SA",
+        "Tasmania": "TAS",
+        "Victoria": "VIC",
+        "Western Australia": "WA"
+    };
+    
+    // Function to embed a chart
+    function embedChart(elementId, specPath, selectedState) {
+        vegaEmbed("#" + elementId, specPath, {"actions": false}).then(function(result) {
+            if (selectedState) {
+                result.view.signal("selectedState", selectedState).run();
+            }
+        }).catch(console.error);
+    }
+    
+    // Initial embedding with no state selected
+    embedChart("map", "vega/proportional.vg.json", null);
+    embedChart("bedperperson", "vega/choropleth.vg.json", null);
+    embedChart("sectoranalysis", "vega/pie.vg.json", null);
+    embedChart("expenditure_tree", "vega/treemap.vg.json", null);
+    embedChart("expenditure_line", "vega/expenditure.vg.json", null);
+    
+    // Add event listener to the drop-down
+    document.getElementById("state-select").addEventListener("change", function() {
+        var selectedState = this.value || null;
+        embedChart("map", "vega/proportional.vg.json", selectedState);
+        embedChart("bedperperson", "vega/choropleth.vg.json", selectedState);
+        embedChart("sectoranalysis", "vega/pie.vg.json", selectedState);
+        embedChart("expenditure_tree", "vega/treemap.vg.json", selectedState);
+        var stateAbbrev = stateAbbreviations[selectedState] || null;
+        embedChart("expenditure_line", "vega/expenditure.vg.json", stateAbbrev);
+    });
+});
+</script>
 </body>
 </html>

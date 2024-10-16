@@ -1,53 +1,49 @@
 {
-    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "description": "Pie chart showing the distribution of public and private healthcare facilities for the selected state or for all states side by side if no state is selected.",
-    "data": {
-      "url": "https://raw.githubusercontent.com/IshanIngolikar/FIT3179/refs/heads/w9/sectoranalysis.csv",
-      "format": {"type": "csv"}
-    },
-    "params": [
-      {
-        "name": "selectedState",
-        "value": null
-      }
-    ],
-    "transform": [
-      {
-        "filter": "selectedState == null || datum.State == selectedState"
-      },
-      {
-        "fold": ["Public", "Private"],
-        "as": ["Sector", "Count"]
-      }
-    ],
-    "facet": {
-      "field": "State",
-      "type": "nominal",
-      "columns": 4,
-      "header": {
-        "title": "Healthcare Distribution by State"
-      }
-    },
-    "spec": {
-      "mark": {"type": "arc", "innerRadius": 50},
-      "encoding": {
-        "theta": {"field": "Count", "type": "quantitative"},
-        "color": {"field": "Sector", "type": "nominal"},
-        "tooltip": [
-          {"field": "State", "type": "nominal", "title": "State"},
-          {"field": "Sector", "type": "nominal", "title": "Healthcare Sector"},
-          {"field": "Count", "type": "quantitative", "title": "Number of Hospitals"}
-        ]
-      }
-    },
-    "title": {
-      "text": {"signal": "selectedState ? 'Healthcare Distribution in ' + selectedState : 'Healthcare Distribution by State'"},
-      "fontSize": 18,
-      "fontWeight": "bold"
-    },
-    "autosize": {
-      "type": "fit",
-      "contains": "padding"
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Pie chart showing the distribution of public and private healthcare facilities for the selected state or for all states side by side if no state is selected.",
+  "data": {
+    "url": "https://raw.githubusercontent.com/IshanIngolikar/FIT3179/refs/heads/w9/sectoranalysis.csv",
+    "format": {"type": "csv"}
+  },
+  "params": [
+    {
+      "name": "selectedState",
+      "value": null
     }
+  ],
+  "transform": [
+    {
+      "filter": "selectedState == null || datum.State == selectedState"
+    },
+    {
+      "fold": ["Public", "Private"],
+      "as": ["Sector", "Count"]
+    }
+  ],
+  "facet": {
+    "field": "State",
+    "type": "nominal",
+    "header": {
+      "title": "Healthcare Distribution by State"
+    }
+  },
+  "spec": {
+    "width": 0.00001 ,   
+    "height": 30, 
+    "mark": {"type": "arc", "innerRadius": 30},
+    "encoding": {
+      "theta": {"field": "Count", "type": "quantitative"},
+      "color": {"field": "Sector", "type": "nominal"},
+      "tooltip": [
+        {"field": "State", "type": "nominal", "title": "State"},
+        {"field": "Sector", "type": "nominal", "title": "Healthcare Sector"},
+        {"field": "Count", "type": "quantitative", "title": "Number of Hospitals"}
+      ]
+    }
+  },
+  "title": {
+    "text": {"signal": "selectedState ? 'Healthcare Distribution in ' + selectedState : 'Healthcare Distribution by State'"},
+    "fontSize": 18,
+    "fontWeight": "bold"
   }
-  
+}
