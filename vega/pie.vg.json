@@ -22,10 +22,7 @@
   ],
   "facet": {
     "field": "State",
-    "type": "nominal",
-    "header": {
-      "title": "Healthcare Distribution by State"
-    }
+    "type": "nominal"
   },
   "spec": {
     "width": 0.00001 ,   
@@ -42,7 +39,8 @@
     }
   },
   "title": {
-    "text": {"signal": "selectedState ? '      Healthcare Distribution in ' + selectedState : 'Healthcare Distribution by State'"},
+    "dx":32,
+    "text": {"signal": "selectedState ? 'Healthcare Distribution in ' + selectedState : 'Healthcare Distribution by State'"},
     "fontSize": 18,
     "fontWeight": "bold"
   }
