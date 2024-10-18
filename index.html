@@ -138,47 +138,80 @@
     </div>
 </div>
 
-<!-- JavaScript code -->
+
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const stateAbbreviations = {
-        "Australian Capital Territory": "ACT",
-        "New South Wales": "NSW",
-        "Northern Territory": "NT",
-        "Queensland": "QLD",
-        "South Australia": "SA",
-        "Tasmania": "TAS",
-        "Victoria": "VIC",
-        "Western Australia": "WA"
-    };
+    document.addEventListener('DOMContentLoaded', function() {
+        const stateAbbreviations = {
+            "Australian Capital Territory": "ACT",
+            "New South Wales": "NSW",
+            "Northern Territory": "NT",
+            "Queensland": "QLD",
+            "South Australia": "SA",
+            "Tasmania": "TAS",
+            "Victoria": "VIC",
+            "Western Australia": "WA"
+        };
     
-    // Function to embed a chart
-    function embedChart(elementId, specPath, selectedState) {
-        vegaEmbed("#" + elementId, specPath, {"actions": false}).then(function(result) {
-            if (selectedState) {
-                result.view.signal("selectedState", selectedState).run();
-            }
-        }).catch(console.error);
-    }
-    
-    // Initial embedding with no state selected
-    embedChart("map", "vega/proportional.vg.json", null);
-    embedChart("bedperperson", "vega/choropleth.vg.json", null);
-    embedChart("sectoranalysis", "vega/pie.vg.json", null);
-    embedChart("expenditure_tree", "vega/treemap.vg.json", null);
-    embedChart("expenditure_line", "vega/expenditure.vg.json", null);
-    
-    // Add event listener to the drop-down
-    document.getElementById("state-select").addEventListener("change", function() {
-        var selectedState = this.value || null;
-        embedChart("map", "vega/proportional.vg.json", selectedState);
-        embedChart("bedperperson", "vega/choropleth.vg.json", selectedState);
-        embedChart("sectoranalysis", "vega/pie.vg.json", selectedState);
-        embedChart("expenditure_tree", "vega/treemap.vg.json", selectedState);
-        var stateAbbrev = stateAbbreviations[selectedState] || null;
-        embedChart("expenditure_line", "vega/expenditure.vg.json", stateAbbrev);
+        // Function to embed a chart with dynamic specification adjustments for maps
+        function embedMapChart(elementId, specPath, selectedState) {
+            fetch(specPath)
+            .then(response => response.json())
+            .then(vlSpec => {
+                const originalLayerCount = vlSpec.layer.length;
+
+                // Modify only the map-related specifications for graticules
+                if (selectedState === null) {
+                    // Add graticules layer when selectedState is null, specifically for map charts
+                    vlSpec.layer.push({
+                        "data": {
+                            "url": "https://raw.githubusercontent.com/IshanIngolikar/FIT3179/refs/heads/w9/output.json",
+                            "format": {"type": "topojson", "feature": "ne_10m_graticules_15"}
+                        },
+                        "mark": {
+                            "type": "geoshape",
+                            "stroke": "black",
+                            "strokeWidth": 0.5
+                        }
+                    });
+                } else {
+                    // Restore to original layers if state is selected
+                    vlSpec.layer = vlSpec.layer.slice(0, originalLayerCount);
+                }
+
+                vegaEmbed("#" + elementId, vlSpec, {"actions": false}).then(function(result) {
+                    result.view.signal("selectedState", selectedState).run();
+                }).catch(console.error);
+            });
+        }
+
+        // Function to embed non-map charts, unchanged
+        function embedChart(elementId, specPath, selectedState) {
+            vegaEmbed("#" + elementId, specPath, {"actions": false}).then(function(result) {
+                if (selectedState) {
+                    result.view.signal("selectedState", selectedState).run();
+                }
+            }).catch(console.error);
+        }
+
+        // Initial embedding with no state selected
+        embedChart("sectoranalysis", "vega/pie.vg.json", null);
+        embedChart("expenditure_tree", "vega/treemap.vg.json", null);
+        embedChart("expenditure_line", "vega/expenditure.vg.json", null);
+        embedMapChart("map", "vega/proportional.vg.json", null);
+        embedMapChart("bedperperson", "vega/choropleth.vg.json", null);
+
+        // Add event listener to the drop-down
+        document.getElementById("state-select").addEventListener("change", function() {
+            var selectedState = this.value || null;
+            embedMapChart("map", "vega/proportional.vg.json", selectedState);
+            embedMapChart("bedperperson", "vega/choropleth.vg.json", selectedState);
+            embedChart("sectoranalysis", "vega/pie.vg.json", selectedState);
+            embedChart("expenditure_tree", "vega/treemap.vg.json", selectedState);
+            var stateAbbrev = stateAbbreviations[selectedState] || null;
+            embedChart("expenditure_line", "vega/expenditure.vg.json", stateAbbrev);
+        });
     });
-});
 </script>
+
 </body>
 </html>
