@@ -19,6 +19,17 @@
             text-align: center;
             margin-top: 20px;
         }
+        
+        .explain {
+    font-family: 'Georgia', serif; /* Example of a beautiful serif font */
+    text-align: center; /* Center align text horizontally */
+    flex-direction: column;
+    display: flex;
+    justify-content: center; /* Center align text vertically */
+    align-items: center;
+    
+}
+
         .container {
             width: 95%;
             max-width: 1200px;
@@ -62,10 +73,14 @@
         }
         #expenditure_tree
         {
-          height: 360px; 
+          height: 400px; 
+        }
+        #expenditure_line {
+          height: 460px; 
         }
         #sectoranalysis {
             height: 100px; /* Pie chart height */
+            align-items: center;
         }
         /* Ensure charts are responsive */
         .chart-content {
@@ -108,12 +123,20 @@
     <!-- Charts Section -->
     <div class="chart-grid">
         <!-- First Row: Two Charts Side by Side -->
-        <div class="chart-container">
+        <div class="chart-container full-width-chart">
             <h3 class="chart-title">Hospital Distribution Map</h3>
             <p class="annotation">Distribution of hospitals across regions.</p>
             <div id="map" class="chart-content"></div>
         </div>
-        <div class="chart-container">
+        <div class="chart-container full-width-chart">
+            <p>Interesting thing about 1 </p>
+        </div>
+
+        <div class="chart-container explain">
+            <h2 class="chart-title">This map reveals the variability in hospital bed availability per capita across Australian states and territories, highlighting the Northern Territory as having the highest density of hospital beds relative to its population.  </h2>
+            <h3>This visualization prompts a critical examination of healthcare resource allocation, suggesting a potential surplus in less populous areas like the NT and possible shortages in densely populated regions such as New South Wales and Victoria.</h3>
+        </div>       
+         <div class="chart-container">
             <h3 class="chart-title">Beds Per Person</h3>
             <p class="annotation">Density of hospital beds per population.</p>
             <div id="bedperperson" class="chart-content"></div>
@@ -127,7 +150,7 @@
         <!-- Third Row: Two Charts Side by Side -->
         <div class="chart-container">
             <h3 class="chart-title">Expenditure Breakdown</h3>
-            <p class="annotation">Allocation of healthcare funding.</p>
+            <p class="annotation">Allocation of healthcare funding (Public Sources).</p>
             <div id="expenditure_tree" class="chart-content"></div>
         </div>
         <div class="chart-container">
